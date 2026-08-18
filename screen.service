@@ -1,0 +1,20 @@
+[Unit]
+Description=Screen accueil web application
+After=network.target
+
+[Service]
+Type=simple
+User=jzs
+Group=jzs
+WorkingDirectory=/opt/screen
+EnvironmentFile=/etc/screen/screen.env
+ExecStart=/usr/bin/python3 /opt/screen/app.py
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ReadWritePaths=/opt/screen/data
+
+[Install]
+WantedBy=multi-user.target
