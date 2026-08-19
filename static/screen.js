@@ -1,7 +1,10 @@
-let data, current=0, timer;
-const $=s=>document.querySelector(s);
-function clock(){ $('#clock').textContent=new Intl.DateTimeFormat('fr-BE',{hour:'2-digit',minute:'2-digit',weekday:'long',day:'numeric',month:'long'}).format(new Date()) } setInterval(clock,1000);clock();
-function show(i){ const s=data.slides[i]; if(!s)return; current=i; const el=$('#slide');el.className=s.image?'has-image':'';el.style.backgroundImage=s.image?`url("${s.image}")`:'';el.innerHTML=`<h1>${escapeHtml(s.title)}</h1><p>${escapeHtml(s.body)}</p>${s.cta?`<span class="cta">${escapeHtml(s.cta)} →</span>`:''}`; $('#dots').innerHTML=data.slides.map((_,n)=>`<i class="dot ${n===i?'on':''}"></i>`).join('') }
-function escapeHtml(v){const d=document.createElement('div');d.textContent=v;return d.innerHTML}
-function modal(title,body){$('#modalTitle').textContent=title;$('#modalBody').textContent=body;$('#modal').showModal()}
-async function start(){data=await fetch('/api/public').then(x=>x.json());document.documentElement.style.setProperty('--accent',data.settings.primary_color);$('#venue').textContent=data.settings.venue_name;show(0);clearInterval(timer);timer=setInterval(()=>show((current+1)%data.slides.length),Math.max(3,+data.settings.rotation_seconds||9)*1000);$('#about').onclick=()=>modal(data.settings.info_title,data.settings.info_body);$('#program').onclick=()=>modal('Programme & événements','Consultez les annonces affichées ou renseignez ici le lien et les détails de votre programme.');$('#help').onclick=()=>modal('Besoin d’aide ?','Adressez-vous à l’équipe d’accueil : nous sommes là pour vous aider.');$('.close').onclick=()=>$('#modal').close()}start().catch(()=>$('#slide').innerHTML='<h1>Écran indisponible</h1><p>Vérifiez la connexion au service.</p>');
+const buttons = document.querySelectorAll('.info-button');
+const description = document.getElementById('description');
+
+buttons.forEach(function (button) {
+	button.addEventListener('click', function () {
+		description.textContent = button.dataset.description;
+		description.hidden = false;
+	});
+});
+

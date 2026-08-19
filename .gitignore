@@ -7,3 +7,5 @@ data/screen.db
 .env
 .env.*
 !.env.example
+
+.vscode/
